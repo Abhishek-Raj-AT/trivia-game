@@ -13,15 +13,17 @@ export type AnswerObject = {
 const TOTAL_QUESTIONS = 10;
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [questions, setQuestions] = useState<QuestionState[]>([]);
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [gameOver, setGameOver] = useState(true);
-  const [input, setInput] = useState('answer')
+  const [input, setInput] = useState('')
 
-  const changeHandler = (event:any) => {
-    setInput(event.target.value)
+  const changeHandler = (event:string) => {
+    console.log(event);
+    setInput(event)
+
   }
 
   const startTrivia = async () => {
@@ -41,16 +43,18 @@ function App() {
     if (!gameOver) {
       const answer = e.currentTarget.value;
       const correct = questions[number].correct_answer === answer;
+      console.log(correct);
+      
       const answerObject = {
         question: questions[number].question,
         answer,
         correct,
         correctAnswer: questions[number].correct_answer
-      };
+      }
       setUserAnswers(prev => [...prev, answerObject])
-    }
+    } 
   };
-
+ console.log([questions[number]])
   const nextQuestion = () => {
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
@@ -59,6 +63,19 @@ function App() {
       setNumber(nextQuestion);
     }
   };
+
+  const handleSubmit = (e:any) =>{
+    e.preventDefault()
+    setUserAnswers(prev =>
+      [...prev, {
+        question: questions[number].question,
+        answer: input,
+        correct: questions[number].correct_answer === input,
+        correctAnswer: questions[number].correct_answer
+      }]
+    )
+    setInput('')
+  }
   
   return (
     <div className="App">
@@ -74,12 +91,21 @@ function App() {
           questionNumber={number + 1}
           totalQuestions={TOTAL_QUESTIONS}
           question={questions[number].question}
-          userAnswer={userAnswers ? userAnswers[number] : undefined}
+          userAnswer={userAnswers ? userAnswers[number] : 'Not Found'}
           handleSubmit={checkAnswer}
-          handleChange={changeHandler}
+          handleChange={(event:string)=> changeHandler(event)}
           option={questions[number].answers}
            />
         )}
+        <div className='input'>
+        {!loading && !gameOver && <input type = "text" placeholder='select option' value={input} onChange={(e)=>{
+          changeHandler(e.target.value)
+        }}/>}
+        </div>
+        <div className='btn'>
+        {!loading && !gameOver && <button  className='submit' onClick={handleSubmit}>submit</button>}
+        </div>
+        
         { 
         !gameOver && 
         !loading && 
@@ -89,6 +115,8 @@ function App() {
           Next Question
           </button>
         ) : null}
+        
+     
     </div>
   );
 }

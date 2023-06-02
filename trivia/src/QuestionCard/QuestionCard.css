@@ -1,0 +1,9 @@
+.container{
+    background-color:antiquewhite;
+    width: 170vh;
+}
+.option {
+    display: flex;
+    gap: 20px;
+    margin-left: 25px;
+}
