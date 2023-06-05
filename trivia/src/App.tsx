@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import QuestionCard from './QuestionCard/QuestionCard';
 import { Difficulty, QuestionState, fetchQuizQuestions } from './API';
@@ -19,12 +19,16 @@ function App() {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [gameOver, setGameOver] = useState(true);
   const [input, setInput] = useState('')
+ const [valid, setValid] = useState(true)
 
   const changeHandler = (event:string) => {
-    console.log(event);
     setInput(event)
 
   }
+
+  useEffect(() => {setTimeout(() => {
+    }, 2000);
+  }, []);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -37,13 +41,13 @@ function App() {
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
+    setValid(true)
 };
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
       const answer = e.currentTarget.value;
       const correct = questions[number].correct_answer === answer;
-      console.log(correct);
       
       const answerObject = {
         question: questions[number].question,
@@ -54,7 +58,6 @@ function App() {
       setUserAnswers(prev => [...prev, answerObject])
     } 
   };
- console.log([questions[number]])
   const nextQuestion = () => {
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
@@ -71,11 +74,12 @@ function App() {
         question: questions[number].question,
         answer: input,
         correct: questions[number].correct_answer === input,
-        correctAnswer: questions[number].correct_answer
+        correctAnswer: questions[number].correct_answer,
       }]
-    )
-    setInput('')
-  }
+      )
+      setInput('')
+    }
+    
   
   return (
     <div className="App">
@@ -105,6 +109,7 @@ function App() {
         <div className='btn'>
         {!loading && !gameOver && <button  className='submit' onClick={handleSubmit}>submit</button>}
         </div>
+        {!gameOver && !loading && userAnswers.length === number +1 && <div className='message'> {userAnswers.length === checkAnswer.length ? 'correct answer': 'wrong answer'}</div>}
         
         { 
         !gameOver && 
