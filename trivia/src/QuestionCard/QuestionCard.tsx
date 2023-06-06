@@ -12,11 +12,14 @@ interface props {
 const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnswer,handleChange , totalQuestions,}) =>{
     return (
       <div className="container">
-        <h2>{question}</h2>
+        <h2 className="question">{question}</h2>
+          <label className="label">Options:
         <div className="option">
           {option.map((answer) => (
-            <div className="buttonWrapper" key={answer}>
-              <button
+            <div  key={answer}>
+              <button style={{
+              cursor: 'pointer', backgroundColor: 'antiquewhite', 
+            }}
                 disabled={userAnswer ? true : false}
                 onClick={()=> {
                     handleChange(answer);
@@ -28,6 +31,7 @@ const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnsw
             </div>
           ))}
         </div>
+          </label>
         <div>
         </div>
       </div>

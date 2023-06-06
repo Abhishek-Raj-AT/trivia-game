@@ -18,17 +18,21 @@ function App() {
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [gameOver, setGameOver] = useState(true);
+  const [message, setMessage] = useState('');
   const [input, setInput] = useState('')
- const [valid, setValid] = useState(true)
 
   const changeHandler = (event:string) => {
     setInput(event)
-
   }
 
   useEffect(() => {setTimeout(() => {
-    }, 2000);
-  }, []);
+   const nextQuestion = number + 1
+   if(nextQuestion <= TOTAL_QUESTIONS) {
+     setNumber(nextQuestion)
+     setMessage('')
+   }
+    }, 70000);
+  }, [userAnswers, number]);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -37,14 +41,16 @@ function App() {
       TOTAL_QUESTIONS,
       Difficulty.EASY
     );
+    console.log(newQuestions)
     setQuestions(newQuestions);
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
-    setValid(true)
 };
-
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if(message) {
+      return
+    }
     if (!gameOver) {
       const answer = e.currentTarget.value;
       const correct = questions[number].correct_answer === answer;
@@ -54,10 +60,20 @@ function App() {
         answer,
         correct,
         correctAnswer: questions[number].correct_answer
-      }
+    }
       setUserAnswers(prev => [...prev, answerObject])
-    } 
+      const correctAnswer:string = questions[number].correct_answer
+    if(correctAnswer?.toLowerCase() === input.toLocaleLowerCase()) {
+
+      setMessage('Good!Your answer is correct');
+    }else {
+    
+      setMessage('Oops! Your answer is incorrect');
+    }
+    }
+    setInput("") 
   };
+
   const nextQuestion = () => {
     const nextQuestion = number + 1;
     if (nextQuestion === TOTAL_QUESTIONS) {
@@ -65,22 +81,8 @@ function App() {
     } else {
       setNumber(nextQuestion);
     }
+    setMessage('')
   };
-
-  const handleSubmit = (e:any) =>{
-    e.preventDefault()
-    setUserAnswers(prev =>
-      [...prev, {
-        question: questions[number].question,
-        answer: input,
-        correct: questions[number].correct_answer === input,
-        correctAnswer: questions[number].correct_answer,
-      }]
-      )
-      setInput('')
-    }
-    
-  
   return (
     <div className="App">
       <h1 className='neonText'>Trivia Game</h1>
@@ -101,27 +103,33 @@ function App() {
           option={questions[number].answers}
            />
         )}
-        <div className='input'>
-        {!loading && !gameOver && <input type = "text" placeholder='select option' value={input} onChange={(e)=>{
+        <div style={{gap:'10px',marginLeft: '20px'}}>
+        {!loading && !gameOver &&
+        <>
+        <br/>
+         <input type = "text" placeholder='select option' className='input-text' value={input} onChange={(e)=>{
           changeHandler(e.target.value)
-        }}/>}
+        }}/>
+        <br/>
+        <button disabled ={message ? true : false}  className='submit' type='button' onClick={checkAnswer}>submit</button>
+        </>
+        }
         </div>
-        <div className='btn'>
-        {!loading && !gameOver && <button  className='submit' onClick={handleSubmit}>submit</button>}
-        </div>
-        {!gameOver && !loading && userAnswers.length === number +1 && <div className='message'> {userAnswers.length === checkAnswer.length ? 'correct answer': 'wrong answer'}</div>}
-        
+        <div style={{
+              backgroundColor: message  ? 'lightblue' : 'white',
+              cursor: 'pointer', marginLeft: '20px', width: '30%'
+            }}> {message}</div>
+            <br/>
         { 
         !gameOver && 
         !loading && 
         userAnswers.length === number + 1 && 
         number !== TOTAL_QUESTIONS - 1 ? (
-          <button className='next' onClick={nextQuestion}>
+          <button style={{backgroundColor: 'yellowgreen', cursor: 'pointer', marginLeft: '20px'}} onClick={nextQuestion}>
           Next Question
           </button>
         ) : null}
         
-     
     </div>
   );
 }
