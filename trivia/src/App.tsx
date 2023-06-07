@@ -31,8 +31,8 @@ function App() {
      setNumber(nextQuestion)
      setMessage('')
    }
-    }, 70000);
-  }, [userAnswers, number]);
+    }, 5000);
+  }, [userAnswers]);
 
   const startTrivia = async () => {
     setLoading(true);
