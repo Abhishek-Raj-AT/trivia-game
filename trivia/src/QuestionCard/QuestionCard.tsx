@@ -17,8 +17,8 @@ const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnsw
         <div className="option">
           {option.map((answer) => (
             <div  key={answer}>
-              <button style={{
-              cursor: 'pointer', backgroundColor: 'antiquewhite', 
+              <button  className ='btn-option' style={{
+              cursor: 'pointer', backgroundColor: 'hsla(0,0%,100%,1)',border: 'solid 1px black',borderRadius: '2px', width: 'auto' ,fontFamily: 'bold',height: 'auto'
             }}
                 disabled={userAnswer ? true : false}
                 onClick={()=> {

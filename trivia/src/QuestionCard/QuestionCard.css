@@ -17,3 +17,13 @@
 .buttonWrapper{
     cursor: pointer;
 }
+.btn-option{
+   min-width: 50px;
+   max-width: 120px;
+   height: 100px
+}
+.btn-option:hover{
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  transform: translateY(-1px);
+  color:rgb(19, 20, 20);
+}

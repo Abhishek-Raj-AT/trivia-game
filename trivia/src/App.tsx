@@ -30,8 +30,10 @@ function App() {
    if(nextQuestion <= TOTAL_QUESTIONS) {
      setNumber(nextQuestion)
      setMessage('')
+   }else{
+    setGameOver(true)
    }
-    }, 5000);
+    }, 10000);
   }, [userAnswers]);
 
   const startTrivia = async () => {
@@ -41,13 +43,13 @@ function App() {
       TOTAL_QUESTIONS,
       Difficulty.EASY
     );
-    console.log(newQuestions)
     setQuestions(newQuestions);
     setUserAnswers([]);
     setNumber(0);
     setLoading(false);
 };
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if(message) {
       return
     }
@@ -103,21 +105,26 @@ function App() {
           option={questions[number].answers}
            />
         )}
-        <div style={{gap:'10px',marginLeft: '20px'}}>
+        <div style={{marginLeft: '20px'}}>
         {!loading && !gameOver &&
         <>
         <br/>
-         <input type = "text" placeholder='select option' className='input-text' value={input} onChange={(e)=>{
+         <div>
+         <input type = "text" placeholder='Enter answer' className='input-text' value={input} onChange={(e)=>{
           changeHandler(e.target.value)
         }}/>
+         </div>
         <br/>
-        <button disabled ={message ? true : false}  className='submit' type='button' onClick={checkAnswer}>submit</button>
+        <div>
+        <button disabled ={message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px', textAlign:'center'
+        }} type='button' onClick={checkAnswer}>submit</button>
+        </div>
         </>
         }
         </div>
         <div style={{
               backgroundColor: message  ? 'lightblue' : 'white',
-              cursor: 'pointer', marginLeft: '20px', width: '30%'
+              cursor: 'pointer', marginLeft: '20px', width: '50%'
             }}> {message}</div>
             <br/>
         { 
@@ -125,7 +132,7 @@ function App() {
         !loading && 
         userAnswers.length === number + 1 && 
         number !== TOTAL_QUESTIONS - 1 ? (
-          <button style={{backgroundColor: 'yellowgreen', cursor: 'pointer', marginLeft: '20px'}} onClick={nextQuestion}>
+          <button style={{backgroundColor: 'hsl(260deg 7.02% 74.31%)', cursor: 'pointer', marginLeft: '20px', maxWidth: '100px', minWidth: '40px'}} onClick={nextQuestion}>
           Next Question
           </button>
         ) : null}
