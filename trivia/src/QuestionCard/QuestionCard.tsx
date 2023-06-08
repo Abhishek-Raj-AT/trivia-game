@@ -12,7 +12,7 @@ interface props {
 const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnswer,handleChange , totalQuestions,}) =>{
     return (
       <div className="container">
-        <h2 className="question">{question}</h2>
+        <div className="question" dangerouslySetInnerHTML={{ __html: question }} />
           <label className="label">Options:
         <div className="option">
           {option.map((answer) => (

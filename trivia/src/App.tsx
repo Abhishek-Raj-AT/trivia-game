@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import QuestionCard from './QuestionCard/QuestionCard';
 import { Difficulty, QuestionState, fetchQuizQuestions } from './API';
+import { toBeRequired } from '@testing-library/jest-dom/matchers';
 
 export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
   correctAnswer: string;
+  
 }
 
-const TOTAL_QUESTIONS = 10;
+const TOTAL_QUESTIONS = 20
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -25,31 +27,20 @@ function App() {
     setInput(event)
   }
 
-  useEffect(() => {setTimeout(() => {
-   const nextQuestion = number + 1
-   if(nextQuestion <= TOTAL_QUESTIONS) {
-     setNumber(nextQuestion)
-     setMessage('')
-   }else{
-    setGameOver(true)
-   }
-    }, 10000);
-  }, [userAnswers]);
-
   const startTrivia = async () => {
     setLoading(true);
     setGameOver(false);
     const newQuestions = await fetchQuizQuestions(
-      TOTAL_QUESTIONS,
+      TOTAL_QUESTIONS ,
       Difficulty.EASY
     );
     setQuestions(newQuestions);
     setUserAnswers([]);
+    setMessage('')
     setNumber(0);
     setLoading(false);
 };
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
     if(message) {
       return
     }
@@ -73,16 +64,15 @@ function App() {
       setMessage('Oops! Your answer is incorrect');
     }
     }
+    setTimeout(() => {
+      startTrivia()
+      setMessage('')
+    }, 5000);
     setInput("") 
   };
 
   const nextQuestion = () => {
-    const nextQuestion = number + 1;
-    if (nextQuestion === TOTAL_QUESTIONS) {
-      setGameOver(true);
-    } else {
-      setNumber(nextQuestion);
-    }
+    startTrivia()
     setMessage('')
   };
   return (
@@ -93,7 +83,7 @@ function App() {
             Start
           </button>
         ) : null }
-        { loading && <p className='loading'>Loading Questions ...</p> }
+        { !gameOver && loading && <p className='loading'>Loading Questions ...</p> }
         { !loading && !gameOver && (
           <QuestionCard 
           questionNumber={number + 1}
@@ -111,12 +101,12 @@ function App() {
         <br/>
          <div>
          <input type = "text" placeholder='Enter answer' className='input-text' value={input} onChange={(e)=>{
-          changeHandler(e.target.value)
+          changeHandler(e.target.value) 
         }}/>
          </div>
         <br/>
         <div>
-        <button disabled ={message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px', textAlign:'center'
+        <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px', textAlign:'center'
         }} type='button' onClick={checkAnswer}>submit</button>
         </div>
         </>

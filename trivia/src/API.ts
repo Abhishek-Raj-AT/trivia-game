@@ -23,9 +23,10 @@ export type Question = {
     amount: number, 
     difficulty: Difficulty
     ) => {
-    const endpoint = `https://opentdb.com/api.php?amount=${amount}&difficulty=${difficulty}&type=multiple`;
+    const endpoint = `https://opentdb.com/api.php/?amount=1`;
     const data = await (await fetch(endpoint)).json();
-    return data.results.map((question: Question) => (
+    console.log(data);
+    return data.results.map ((question: Question) => (
       {
         ...question, 
         answers: shuffleArray([
@@ -33,5 +34,4 @@ export type Question = {
           question.correct_answer
         ]),
       }));
-  }
-  
+  } 
