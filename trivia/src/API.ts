@@ -26,12 +26,17 @@ export type Question = {
     const endpoint = `https://opentdb.com/api.php/?amount=1`;
     const data = await (await fetch(endpoint)).json();
     console.log(data);
-    return data.results.map ((question: Question) => (
-      {
-        ...question, 
-        answers: shuffleArray([
-          ...question.incorrect_answers, 
-          question.correct_answer
-        ]),
-      }));
+    return data.results.map((question: Question) => {
+      console.log(question)
+    return {
+      ...question, 
+      answers: shuffleArray([
+        ...question.incorrect_answers, 
+        question.correct_answer
+      ]),
+    }
+    
+    })
+     
+  
   } 

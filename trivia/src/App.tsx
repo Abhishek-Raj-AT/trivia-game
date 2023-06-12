@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   MDBCard,
   MDBCardBody,
@@ -26,8 +26,32 @@ function App() {
   const [number, setNumber] = useState(0);
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [gameOver, setGameOver] = useState(true);
+  const [clicked, setClicked] = useState(true);
   const [message, setMessage] = useState('');
   const [input, setInput] = useState('')
+  
+const fetchQestion = useCallback(async  () => {
+
+  if(questions?.length === 0) {
+    console.log('run');
+    setLoading(true);
+    setGameOver(false);
+    const newQuestions = await fetchQuizQuestions(
+      TOTAL_QUESTIONS ,
+      Difficulty.EASY
+    );
+  
+    
+    setQuestions(newQuestions);
+  } 
+
+
+
+  setLoading(false);
+}, [questions])
+  useEffect(()=>{
+    fetchQestion()
+  },[fetchQestion])
 
   const changeHandler = (event:string) => {
     setInput(event)
@@ -46,6 +70,9 @@ function App() {
     setNumber(0);
     setLoading(false);
 };
+console.log(questions);
+console.log(userAnswers);
+
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if(message) {
       return
@@ -63,10 +90,10 @@ function App() {
       setUserAnswers(prev => [...prev, answerObject])
       const correctAnswer:string = questions[number].correct_answer
     if(correctAnswer?.toLowerCase() === input.toLocaleLowerCase()) {
-
+      setClicked(true)
       setMessage('Good!Your answer is correct');
     }else {
-    
+      setClicked(false)
       setMessage('Oops! Your answer is incorrect');
     }
     }
@@ -82,7 +109,7 @@ function App() {
     setMessage('')
   };
   return (
-    
+    <div>   
     <MDBCard style={{width: '40%',
     margin: 'auto',
     height: '30%',
@@ -93,10 +120,10 @@ function App() {
       <MDBCardText >
         <MDBCardTitle style={{textAlign: 'center',
     }}>Trivia Game</MDBCardTitle>
-        { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
+        {/* { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <MDBBtn className="btn btn-primary" onClick={startTrivia}>Start</MDBBtn>
-        ) : null }
-        { !gameOver && loading && <p className='loading'>Loading Questions ...</p> }
+        ) : null } */}
+        {  loading && <p className='spinner'><i className='fas fa-circle-notch' style={{fontSize:'48px',color:'blue'}}></i></p> }
         { !loading && !gameOver && (
           <QuestionCard 
           questionNumber={number + 1}
@@ -112,15 +139,16 @@ function App() {
         {!loading && !gameOver &&
         <>
         <br/>
-         <div>
-         <input type = "text" placeholder='Enter answer' className='input-text' value={input} onChange={(e)=>{
+         <div className='input'>
+         <input style={{float: "left",
+    width: "90%", height: '40px'}} type = "text" placeholder='Enter Answer' value={input} onChange={(e)=>{
           changeHandler(e.target.value) 
         }}/>
          </div>
         <br/>
         <span  className='btn-sub-next'>
-        <div style={{marginLeft: '240px'}}>
-        <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px', textAlign:'center'
+        <div style={{}}>
+        <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px',
         }} type='button' onClick={checkAnswer}>submit</button>
         </div>
         { 
@@ -135,13 +163,16 @@ function App() {
         }
         </div>
             <br/>
-         <div style={{
-              backgroundColor: message  ? 'lightblue' : 'red',
-              cursor: 'pointer', marginLeft: 'auto', marginRight: 'auto', width: '50%'
-            }}> {message}</div>
+         
       </MDBCardText>
     </MDBCardBody>
+    <div style={{
+              backgroundColor: clicked  ? 'lightblue' : 'darksalmon',
+              cursor: 'pointer', marginLeft: '15px', marginRight: '20px', border: '1px solid white',
+              borderRadius: '5px',
+            }}> {message}</div>
   </MDBCard>
+  </div>
   );
 }
 

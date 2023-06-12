@@ -1,7 +1,8 @@
 
 .option {
-    gap: 20px;
-    margin-left: 20px;
+    gap: 20px;   
+    float: left;
+    margin-top: 10px;
     padding-right: 31px;
     display: flex;
     justify-content: space-evenly;
@@ -9,7 +10,8 @@
 }
 .question{
     margin-left: 20px;
-    gap: 20px
+    gap: 20px;
+    float: left
 }
 .label{
     margin-left: 20px
