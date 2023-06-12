@@ -147,14 +147,14 @@ console.log(userAnswers);
          </div>
         <br/>
         <span  className='btn-sub-next'>
-        <div style={{}}>
-        <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px',
+        <div >
+        <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: '#0d6efd', gap:'10px',color: 'white', borderRadius: '5px'
         }} type='button' onClick={checkAnswer}>submit</button>
         </div>
         { 
         userAnswers.length === number + 1 && 
         number !== TOTAL_QUESTIONS - 1 ? (
-          <MDBBtn onClick={nextQuestion}>
+          <MDBBtn style={{backgroundColor: '#ffc107'}} onClick={nextQuestion}>
           Next Question
           </MDBBtn>
         ) : null}
@@ -167,9 +167,9 @@ console.log(userAnswers);
       </MDBCardText>
     </MDBCardBody>
     <div style={{
-              backgroundColor: clicked  ? 'lightblue' : 'darksalmon',
-              cursor: 'pointer', marginLeft: '15px', marginRight: '20px', border: '1px solid white',
-              borderRadius: '5px',
+              backgroundColor: clicked  ? 'lightblue' : '#ff9966', color: 'black', 
+              cursor: 'pointer', float: 'left', marginRight: '20px',marginLeft: '20px', border: '1px solid white',
+              borderRadius: '5px', marginBottom: '20px',
             }}> {message}</div>
   </MDBCard>
   </div>

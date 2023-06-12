@@ -1,3 +1,6 @@
+body{
+  background-color: #343a40;
+}
 .App {
   background-color: rgb(245, 243, 240);
   min-height: 40vh;
