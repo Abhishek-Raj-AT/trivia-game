@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import {
+  MDBCard,
+  MDBCardBody,
+  MDBCardTitle,
+  MDBCardText,
+  MDBBtn
+} from 'mdb-react-ui-kit';
+import './App.css'
 import QuestionCard from './QuestionCard/QuestionCard';
 import { Difficulty, QuestionState, fetchQuizQuestions } from './API';
-import { toBeRequired } from '@testing-library/jest-dom/matchers';
 
 export type AnswerObject = {
   question: string;
@@ -76,12 +82,19 @@ function App() {
     setMessage('')
   };
   return (
-    <div className="App">
-      <h1 className='neonText'>Trivia Game</h1>
+    
+    <MDBCard style={{width: '40%',
+    margin: 'auto',
+    height: '30%',
+    marginTop: '30px',
+    maxHeight: '120vh'
+    }}>
+    <MDBCardBody style={{textAlign: 'center'}}>
+      <MDBCardText >
+        <MDBCardTitle style={{textAlign: 'center',
+    }}>Trivia Game</MDBCardTitle>
         { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <button className='start' onClick={startTrivia}>
-            Start
-          </button>
+          <MDBBtn className="btn btn-primary" onClick={startTrivia}>Start</MDBBtn>
         ) : null }
         { !gameOver && loading && <p className='loading'>Loading Questions ...</p> }
         { !loading && !gameOver && (
@@ -105,29 +118,30 @@ function App() {
         }}/>
          </div>
         <br/>
-        <div>
+        <span  className='btn-sub-next'>
+        <div style={{marginLeft: '240px'}}>
         <button disabled ={!input || message ? true : false} className='btn-submit' style={{cursor: 'pointer' ,backgroundColor: 'rgb(218 227 235)', gap:'10px', textAlign:'center'
         }} type='button' onClick={checkAnswer}>submit</button>
         </div>
+        { 
+        userAnswers.length === number + 1 && 
+        number !== TOTAL_QUESTIONS - 1 ? (
+          <MDBBtn onClick={nextQuestion}>
+          Next Question
+          </MDBBtn>
+        ) : null}
+        </span>
         </>
         }
         </div>
-        <div style={{
-              backgroundColor: message  ? 'lightblue' : 'white',
-              cursor: 'pointer', marginLeft: '20px', width: '50%'
-            }}> {message}</div>
             <br/>
-        { 
-        !gameOver && 
-        !loading && 
-        userAnswers.length === number + 1 && 
-        number !== TOTAL_QUESTIONS - 1 ? (
-          <button style={{backgroundColor: 'hsl(260deg 7.02% 74.31%)', cursor: 'pointer', marginLeft: '20px', maxWidth: '100px', minWidth: '40px'}} onClick={nextQuestion}>
-          Next Question
-          </button>
-        ) : null}
-        
-    </div>
+         <div style={{
+              backgroundColor: message  ? 'lightblue' : 'red',
+              cursor: 'pointer', marginLeft: 'auto', marginRight: 'auto', width: '50%'
+            }}> {message}</div>
+      </MDBCardText>
+    </MDBCardBody>
+  </MDBCard>
   );
 }
 

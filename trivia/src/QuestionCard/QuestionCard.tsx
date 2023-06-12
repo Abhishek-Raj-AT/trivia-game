@@ -1,5 +1,8 @@
 import { AnswerObject } from "../App";
-import './QuestionCard.css';
+import './QuestionCard.css'
+import {
+  MDBBtn
+} from 'mdb-react-ui-kit';
 interface props {
     question: string;
     option: string[];
@@ -11,14 +14,14 @@ interface props {
 }
 const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnswer,handleChange , totalQuestions,}) =>{
     return (
-      <div className="container">
+      <div>
         <div className="question" dangerouslySetInnerHTML={{ __html: question }} />
-          <label className="label">Options:
+          <label className="label"/>
         <div className="option">
           {option.map((answer) => (
-            <div  key={answer}>
-              <button  className ='btn-option' style={{
-              cursor: 'pointer', backgroundColor: 'hsla(0,0%,100%,1)',border: 'solid 1px black',borderRadius: '2px', width: 'auto' ,fontFamily: 'bold',height: 'auto'
+            <div  key={answer} style={{ height: "40px", width:'auto'}}>
+              <MDBBtn  className ='btn-option' style={{
+              cursor: 'pointer',backgroundColor: "#faebd7", color:"black" 
             }}
                 disabled={userAnswer ? true : false}
                 onClick={()=> {
@@ -27,11 +30,10 @@ const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnsw
                 }}
               >
                 <span dangerouslySetInnerHTML={{ __html: answer }} />
-              </button>
+              </MDBBtn>
             </div>
           ))}
         </div>
-          </label>
         <div>
         </div>
       </div>
