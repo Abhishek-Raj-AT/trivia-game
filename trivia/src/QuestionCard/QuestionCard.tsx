@@ -11,7 +11,8 @@ interface props {
 }
 const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnswer,handleChange , totalQuestions,}) =>{
     return (
-      <div>
+      <div style ={{display: 'flex',
+        flexWrap: 'wrap'}}>
         <span className="question" dangerouslySetInnerHTML={{ __html: question }} />
           <label className="label" />
         <div className="options">

@@ -13,6 +13,7 @@
     font-size: 1.2rem;
     text-align: left;
     font-weight: 500;
+    width: 100%;
 }
 .buttonWrapper{
     cursor: pointer;
