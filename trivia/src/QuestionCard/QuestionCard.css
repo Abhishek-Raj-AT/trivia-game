@@ -4,6 +4,7 @@
     text-align: left;
     margin-left: 20px;
     margin-top: 10px;
+    float: left;
 }
 .question{
     margin-left: 20px;
@@ -26,7 +27,6 @@
     margin-right: 10px;
     padding: 10px;
     color: black;
-}
-.label{
-    float: left;
+    text-align: left;
+    float: left
 }

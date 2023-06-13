@@ -17,6 +17,7 @@ body{
   width: 100%;
   position: relative;
   height: 40px;
+  margin-top: 10px;
 }
 .btn{
   position: relative;

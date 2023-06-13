@@ -13,14 +13,15 @@ const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnsw
     return (
       <div>
         <span className="question" dangerouslySetInnerHTML={{ __html: question }} />
-        <br />
+          <label className="label" />
         <div className="options">
           {option.map((answer) => (
             <div  key={answer} >
               <button  className ='button' 
                 disabled={userAnswer ? true : false}
                 onClick={()=> {
-                    handleChange(answer); 
+                    handleChange(answer);
+                   
                 }}
               >
                 <span dangerouslySetInnerHTML={{ __html: answer }} />
@@ -30,7 +31,6 @@ const QuestionCard: React.FC<props> = ({question, option, handleSubmit, userAnsw
         </div>
         <div>
         </div>
-       
       </div>
     );
 }
