@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import {
   MDBCard,
   MDBCardBody,
-  MDBCardTitle,
   MDBCardText,
   MDBBtn
 } from 'mdb-react-ui-kit';
@@ -40,13 +39,8 @@ const fetchQestion = useCallback(async  () => {
       TOTAL_QUESTIONS ,
       Difficulty.EASY
     );
-  
-    
     setQuestions(newQuestions);
   } 
-
-
-
   setLoading(false);
 }, [questions])
   useEffect(()=>{
@@ -118,12 +112,12 @@ console.log(userAnswers);
     }}>
     <MDBCardBody style={{textAlign: 'center'}}>
       <MDBCardText >
-        <MDBCardTitle style={{textAlign: 'center',
-    }}>Trivia Game</MDBCardTitle>
+        {/* <MDBCardTitle style={{textAlign: 'center',
+    }}>Trivia Game</MDBCardTitle> */}
         {/* { gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
           <MDBBtn className="btn btn-primary" onClick={startTrivia}>Start</MDBBtn>
         ) : null } */}
-        {  loading && <p className='spinner'><i className='fas fa-circle-notch' style={{fontSize:'48px',color:'blue'}}></i></p> }
+        {  loading && <p className='spinner' ><i className='fas fa-circle-notch' style={{fontSize:'48px',color:'blue',}}></i></p> }
         { !loading && !gameOver && (
           <QuestionCard 
           questionNumber={number + 1}
@@ -139,9 +133,8 @@ console.log(userAnswers);
         {!loading && !gameOver &&
         <>
         <br/>
-         <div className='input'>
-         <input style={{float: "left",
-    width: "90%", height: '40px'}} type = "text" placeholder='Enter Answer' value={input} onChange={(e)=>{
+         <div className='input' style={{marginLeft: '0px'}} >
+         <input type = "text" className="form-control" placeholder='Enter Answer' value={input} onChange={(e)=>{
           changeHandler(e.target.value) 
         }}/>
          </div>
@@ -166,11 +159,10 @@ console.log(userAnswers);
          
       </MDBCardText>
     </MDBCardBody>
-    <div style={{
-              backgroundColor: clicked  ? 'lightblue' : '#ff9966', color: 'black', 
-              cursor: 'pointer', float: 'left', marginRight: '20px',marginLeft: '20px', border: '1px solid white',
-              borderRadius: '5px', marginBottom: '20px',
-            }}> {message}</div>
+            <div style={{ width: '95%', marginLeft: '20px', marginBottom: '20px'}}>
+            {!loading && !gameOver && userAnswers.length === number + 1 && 
+        number !== TOTAL_QUESTIONS - 1 &&<div>{clicked ? <div className="alert alert-primary" role="alert" >{message}</div>:<div className="alert alert-danger" role="alert">{message}</div>}</div>}
+            </div>
   </MDBCard>
   </div>
   );

@@ -12,13 +12,11 @@ body{
   border-radius: 6px;
 }
 .input {
-  gap: 5px;
   float: left;
+  margin-left: 20px;
   width: 100%;
   position: relative;
-  margin-top: 20px;
   height: 40px;
-  border-radius: 5px;
 }
 .btn{
   position: relative;
@@ -63,7 +61,7 @@ body{
 	width: spinner-size;
   height: spinner-size;
 	position: absolute;
-	top: 50%;
+	top: 30%;
 	left: 50%;
 	margin-top: -(spinner-size/ 2);
 	margin-left: -(spinner-size/ 2);
